@@ -6,6 +6,6 @@ process_employee_table is a python script for merging monthly employee data with
 
 purcheases_nb.ipynb is a python jupyter notebook for searching purchase data
 
-** Requirements:
+## Requirements:
 * pandas
 * pandasql

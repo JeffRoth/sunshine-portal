@@ -1,35 +1,49 @@
 # import libraries
 import pandas as pd
 from pandasql import sqldf
-import unicodedata
-import codecs
 from datetime import datetime
 import numpy as np
 import os
+import sys
 
 # specify file locations
 raw_dir = "data_downloads/"
 formatted_dir = "formatted_monthly/"
 
-# Prompt for name of new employee table
-fname = input("Input file name for new employee table: ")
+# read agencies csv
+try:
+	agencies = pd.read_csv('agencies.csv')
+	agencies.rename(columns={'Business Unit':'businessunit', 'BU Description':'budescription'}, inplace=True)
+except:
+	print("agencies.csv file not found. Exiting...")
+	sys.exit()
+
+# read job_families csv
+try:
+	job_families = pd.read_csv('job_families.csv')
+	job_families.rename(columns={'Job Code':'jobcode', 'Position Descr':'positiondescr', 'Job Family':'jobfamily'}, inplace=True)
+except:
+	print("job_families.csv file not found. Exiting... ")
+	sys.exit()
+
+# read in employee csv
+while True:
+	try:
+		fname = input("Input file name for new employee table (or press 'enter' to exit): ")
+		if fname == "":
+			sys.exit()
+		input_file = os.path.join(raw_dir, fname)
+		employee_table = pd.read_csv(input_file, encoding='latin_1')
+		break
+	except FileNotFoundError:
+		print(f"File '{fname}' does not exist.")
+
+# grab report date from file name
 fdate = fname.split(".")[0][-8:]
 form_date = datetime.strptime(fdate, "%Y%m%d").strftime("%m/%d/%Y")
-input_file = os.path.join(raw_dir, fname)
 
 # Create lambda function for easy queries
 pysqldf = lambda q: sqldf(q, globals())
-
-# read agencies csv
-agencies = pd.read_csv('agencies.csv')
-agencies.rename(columns={'Business Unit':'businessunit', 'BU Description':'budescription'}, inplace=True)
-
-# read job_families csv
-job_families = pd.read_csv('job_families.csv')
-job_families.rename(columns={'Job Code':'jobcode', 'Position Descr':'positiondescr', 'Job Family':'jobfamily'}, inplace=True)
-
-# read in employee csv
-employee_table = pd.read_csv(input_file, encoding='latin_1')
 
 # format column headers for SQL merge
 employee_table.rename(columns={'Branch':'branch', 'Business Unit':'businessunit', 'BU Description':'budescription', 'Divsion':'division',
@@ -94,7 +108,7 @@ employee_table_formatted.to_csv(output_file, index=False)
 
 # Concat to merged spreadsheet
 
-q_merge = input("Do you wish to merge this month's report? (Y/N)")
+q_merge = input("Do you wish to merge this month's report? (Y/N): ").capitalize()
 
 if q_merge == "Y":
     

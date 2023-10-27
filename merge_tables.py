@@ -5,10 +5,21 @@ from os.path import isfile, join
 from datetime import datetime
 import bisect
 import pandas as pd
+import sys
 
 # Get list of months available from directory
 formatted_dir = "formatted_monthly/"
+if not os.path.isdir(formatted_dir):
+    print("'formatted_monthly' directory not found. Exiting...")
+    sys.exit()
+
 files = sorted([f for f in listdir(formatted_dir) if isfile(join(formatted_dir, f))])
+if not files:
+    print("'formatted_dir' is empty. No files to merge. Exiting...")
+    sys.exit()
+elif len(files) == 1:
+    print("Only one monthly report in 'formatted_dir'. Nothing to merge. Exiting...")
+    sys.exit()
 
 # grab list of file dates
 file_dates = []
@@ -43,4 +54,4 @@ merged_df.insert(22, 'Index', range(0 + len(merged_df)))
 
 # Write file to disk
 merged_df.to_csv('merged.csv', index=False)
-print("merge.csv file created.")
+print("'merged.csv' file created.")

@@ -2,11 +2,11 @@
 
 Python codes for analyzing data from the Sunshine Portal
 
-merge_tables.py is a python script for merging processed monthly employee data tables.
+*merge_tables.py* is a python script for merging processed monthly employee data tables.
 
-process_employee_table.py is a python script for processing a single employee data table and optionally merging it with the existing merge.csv file.
+*process_employee_table.py* is a python script for processing a single employee data table and optionally merging it with the existing merge.csv file.
 
-purchases_nb.ipynb is a python jupyter notebook for searching purchase data
+*purchases_nb.ipynb* is a python jupyter notebook for searching purchase data
 
 ## Requirements:
 * pandas
@@ -16,6 +16,8 @@ purchases_nb.ipynb is a python jupyter notebook for searching purchase data
 ## To Install
 * Install Python on your machine.
 * Install libraries by running `pip install -r requirements.txt`
+* You should have 2 folders in you project directory: 'data_downloads' and 'formatted_monthly'.
+* In addition, there are two .csv files that should reside in your project directory: 'agencies.csv' and 'job_families.csv'. 'agencies.csv' is a table with 4 fields: Branch, Business Unit, BU Description, and size. 'job_families.csv' is a table with 3 fields: Job Code, Position Descr, and Job Family. These .csv files are required when processing a new employee spreadsheet.
 
 ## To Process a new employee spreadsheet
 * Go to sunshine portal website and select "Employees" (https://ssp3.sunshineportalnm.com/#employees)
@@ -24,11 +26,11 @@ purchases_nb.ipynb is a python jupyter notebook for searching purchase data
 * After downloading, move the .csv file to ./data_downloads/ folder
 * open a windows terminal in the ./Sunshine_portal/ folder
 * run `python process_employee_table.py` in the terminal window
-* you will be prompted for the name of the .csv file.  Type in the name of the file (don't forget to add .csv)
+* you will be prompted for the name of the .csv file.  Type in the name of the file (don't forget to add '.csv')
 * After processing, you will be asked whether you want to add the new month to the existing 'merge.csv' file (if there is one).
 
 ## To Merge processed employee spreadhseets
-* In the event that the 'merge.csv' file becomes corrupted, goes missing, or you simply wish to merge a different range of dates, follow these steps
+* In the event that the 'merge.csv' file becomes corrupted, goes missing, or you simply wish to merge a different range of dates, follow these steps:
 * open a windows terminal in the ./Sunshine_portal/ folder
 * run `python merge_tables.py`
 * you will be prompted for a start date for the merge. Please enter the date using the format: mm/yyyy
@@ -38,7 +40,7 @@ purchases_nb.ipynb is a python jupyter notebook for searching purchase data
 ## Excel Directions:
 * after running one or both of the above scripts, open the 'State IT employees pivot.xlsx' file
 * Select the 'Data' tab
-* Select 'Refresh All' under 'Queries & Connections'.  You may need to select 'Refresh All' twice to get the pivot table to update.
+* Select 'Refresh All' under 'Queries & Connections' (you may need to select 'Refresh All' twice to get the pivot table to update).
 
 
 
